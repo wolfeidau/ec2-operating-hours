@@ -12,10 +12,12 @@ func main() {
 
 	sess, err := session.NewSession()
 	if err != nil {
-		return err
+		log.Fatalf("error building aws session: %s", err)
 	}
 
-	err := operatinghours.CheckOperatingHours()
+	oh := operatinghours.NewOperatingHours(sess)
+
+	err = oh.Check("Australia/Melbourne")
 	if err != nil {
 		log.Fatalf("error processing operating hours: %v", err)
 	}
